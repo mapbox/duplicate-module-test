@@ -1,0 +1,4 @@
+test@1.0.0 /Users/test/mapbox/duplicate-module-test/test
+├─┬ some-other-dependency@0.3.0
+│ └── test-module@1.0.0
+└── test-module@2.0.0
