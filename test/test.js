@@ -43,5 +43,10 @@ test('catch duplicates for new-school `npm ls` output which includes the "dedupe
   assert.equal(nodupesMany.count, 1, 'only one version installed');
   assert.equal(nodupesMany.name, 'test-module', 'has name');
 
+  const multipleDedupes = dmt.testModule({ name: 'hoek', stdout: fs.readFileSync(__dirname + '/fixtures/npm-ls-multiple-deduped-versions', 'utf-8') })
+  assert.ok(multipleDedupes.duplicates, 'found duplicates');
+  assert.equal(multipleDedupes.count, 3, 'three dupes');
+  assert.equal(multipleDedupes.name, 'hoek', 'has name');
+
   assert.end();
 });
