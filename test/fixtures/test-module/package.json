@@ -1,0 +1,11 @@
+{
+  "name": "test-module",
+  "version": "1.0.0",
+  "description": "used for tests",
+  "main": "index.js",
+  "license": "ISC",
+  "dependencies": {
+    "glob": "4.0.0",
+    "rimraf": "2.6.2"
+  }
+}

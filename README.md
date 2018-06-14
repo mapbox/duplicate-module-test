@@ -14,6 +14,7 @@ duplicate-module-test @mapbox/vtquery mapnik something-else
 Output will look something like:
 ```
 Checking for duplicate modules ...
+
 ✔ @mapbox/vtquery has only one version
 ✗ found 2 versions of mapnik
 ✔ something-else has only one version
