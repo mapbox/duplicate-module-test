@@ -1,6 +1,7 @@
 const test = require('tape');
 const fs = require('fs');
 const dmt = require('..');
+const exec = require('child_process').exec;
 
 test('handles error for module that does not exist', (assert) => {
   dmt.npmList('fake-module').then((stdout) => {
@@ -45,8 +46,27 @@ test('catch duplicates for new-school `npm ls` output which includes the "dedupe
 
   const multipleDedupes = dmt.testModule({ name: 'hoek', stdout: fs.readFileSync(__dirname + '/fixtures/npm-ls-multiple-deduped-versions', 'utf-8') })
   assert.ok(multipleDedupes.duplicates, 'found duplicates');
-  assert.equal(multipleDedupes.count, 3, 'three dupes');
+  assert.equal(multipleDedupes.count, 10, '10 count');
   assert.equal(multipleDedupes.name, 'hoek', 'has name');
 
   assert.end();
 });
+
+test('cli', (assert) => {
+  exec(__dirname + '/../bin/cli.js does-not-exist', (err, stdout, stderr) => {
+    assert.ok(/does-not-exist was not found in the node_modules tree/.test(stderr), 'expected output');
+  });
+  exec(__dirname + '/../bin/cli.js tape', (err, stdout, stderr) => {
+    assert.notOk(err, 'no err');
+    assert.equal(stderr.length, 0, 'no stderr');
+    assert.ok(/✔ tape has only one version/.test(stdout));
+  });
+  exec(`cd ${__dirname}/fixtures/test-module && ${__dirname}/../bin/cli.js glob`, (err, stdout, stderr) => {
+    assert.ok(/✗ found duplicate versions of "glob" in 2 installs/.test(stdout), 'expected duplicates found');
+  });
+  assert.end();
+});
+//
+// test('cli - duplicate modules found', (assert) => {
+//
+// })

@@ -31,18 +31,14 @@ const testModule = (module) => {
   const dedupeMatch = module.stdout.match(new RegExp('deduped','g'));
 
   let duplicates = true;
-  let count = match.length || 0;
   if (dedupeMatch) {
-    count = match.length - dedupeMatch.length;
-    if (match && dedupeMatch && (match.length - 1 === dedupeMatch.length)) {
-      duplicates = false;
-    }
+    if (match && dedupeMatch && (match.length - 1 === dedupeMatch.length)) duplicates = false;
   } else {
     if (match && match.length === 1) duplicates = false;
   }
 
   if (!duplicates) return { duplicates: false, count: 1, name: module.name };
-  return { duplicates: true, count: count, name: module.name };
+  return { duplicates: true, count: match.length, name: module.name };
 };
 
 module.exports = {
