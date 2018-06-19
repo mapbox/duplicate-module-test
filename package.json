@@ -1,6 +1,6 @@
 {
   "name": "@mapbox/duplicate-module-test",
-  "version": "0.1.0-alpha2",
+  "version": "0.1.0",
   "description": "Test for duplicate installs of a module(s)",
   "main": "index.js",
   "scripts": {
