@@ -76,7 +76,6 @@ test('cli', (assert) => {
     assert.ok(/✔ tape has only one version/.test(stdout));
   });
   exec(`cd ${__dirname}/fixtures/test-module && ${__dirname}/../bin/cli.js glob`, (err, stdout, stderr) => {
-    console.log(stdout)
     assert.ok(/✗ found duplicate versions of "glob" in 2 installs/.test(stdout), 'expected duplicates found');
   });
   assert.end();
