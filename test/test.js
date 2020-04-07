@@ -52,6 +52,20 @@ test('catch duplicates for new-school `npm ls` output which includes the "dedupe
   assert.end();
 });
 
+test('catch duplicates for when namespaced package has same base name', (assert) => {
+  const dupes = dmt.testModule({ name: 'test-module', stdout: fs.readFileSync(__dirname + '/fixtures/npm-ls-namespaced-dupes', 'utf-8') });
+  assert.ok(dupes.duplicates, 'found duplicates');
+  assert.equal(dupes.count, 4, 'found 4 duplicates');
+  assert.equal(dupes.name, 'test-module', 'has name');
+
+  const nodupes = dmt.testModule({ name: 'test-module', stdout: fs.readFileSync(__dirname + '/fixtures/npm-ls-namespaced-deduped', 'utf-8') });
+  assert.notOk(nodupes.duplicates, 'found no duplicates');
+  assert.equal(nodupes.count, 1, 'only one version installed');
+  assert.equal(nodupes.name, 'test-module', 'has name');
+
+  assert.end();
+});
+
 test('cli', (assert) => {
   exec(__dirname + '/../bin/cli.js does-not-exist', (err, stdout, stderr) => {
     assert.ok(/does-not-exist was not found in the node_modules tree/.test(stderr), 'expected output');
@@ -62,6 +76,7 @@ test('cli', (assert) => {
     assert.ok(/✔ tape has only one version/.test(stdout));
   });
   exec(`cd ${__dirname}/fixtures/test-module && ${__dirname}/../bin/cli.js glob`, (err, stdout, stderr) => {
+    console.log(stdout)
     assert.ok(/✗ found duplicate versions of "glob" in 2 installs/.test(stdout), 'expected duplicates found');
   });
   assert.end();
