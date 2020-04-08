@@ -27,7 +27,9 @@ const npmList = (module) => {
  *
  */
 const testModule = (module) => {
-  const match = module.stdout.match(new RegExp(module.name + '@','g'));
+  // match the module name with a space prefixed so that namespaced
+  // packages of the same name will not count against the duplication check
+  const match = module.stdout.match(new RegExp(' ' + module.name + '@','g'));
   const dedupeMatch = module.stdout.match(new RegExp('deduped','g'));
 
   let duplicates = true;
