@@ -85,5 +85,6 @@ test('cli, single version', (assert) => {
 test('cli, duplicate module found', (assert) => {
   exec(`cd ${__dirname}/fixtures/test-module && ${__dirname}/../bin/cli.js glob`, (err, stdout, stderr) => {
     assert.ok(/✗ found duplicate versions of "glob" in 2 installs/.test(stdout), 'expected duplicates found');
+    assert.end();
   });
 });
