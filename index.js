@@ -1,4 +1,5 @@
 const exec = require('child_process').exec;
+const quote = require('shell-quote/quote');
 
 /**
  * Get the output of `npm ls <module name>`
@@ -6,7 +7,7 @@ const exec = require('child_process').exec;
  */
 const npmList = (module) => {
   return new Promise((resolve, reject) => {
-    exec(`npm ls ${module}`, (err, stdout, stderr) => {
+    exec(`npm ls ${quote([module])}`, (err, stdout, stderr) => {
       if (err && stdout && stdout.match('(empty)')) return reject(new Error(`${module} was not found in the node_modules tree`));
       if (err) return reject(err);
       return resolve({name: module, stdout: stdout});

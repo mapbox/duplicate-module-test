@@ -66,21 +66,24 @@ test('catch duplicates for when namespaced package has same base name', (assert)
   assert.end();
 });
 
-test('cli', (assert) => {
+test('cli, module does not exist', (assert) => {
   exec(__dirname + '/../bin/cli.js does-not-exist', (err, stdout, stderr) => {
     assert.ok(/does-not-exist was not found in the node_modules tree/.test(stderr), 'expected output');
+    assert.end();
   });
+});
+
+test('cli, single version', (assert) => {
   exec(__dirname + '/../bin/cli.js tape', (err, stdout, stderr) => {
     assert.notOk(err, 'no err');
     assert.equal(stderr.length, 0, 'no stderr');
     assert.ok(/✔ tape has only one version/.test(stdout));
+    assert.end();
   });
+});
+
+test('cli, duplicate module found', (assert) => {
   exec(`cd ${__dirname}/fixtures/test-module && ${__dirname}/../bin/cli.js glob`, (err, stdout, stderr) => {
     assert.ok(/✗ found duplicate versions of "glob" in 2 installs/.test(stdout), 'expected duplicates found');
   });
-  assert.end();
 });
-//
-// test('cli - duplicate modules found', (assert) => {
-//
-// })
